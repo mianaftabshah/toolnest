@@ -9,7 +9,8 @@ export default function Footer() {
   return (
     <footer className="bg-gray-950 text-white mt-24">
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-10">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-10 mb-16">
+
           {/* Brand */}
           <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
@@ -66,14 +67,34 @@ export default function Footer() {
               ))}
             </ul>
           </div>
+
+          {/* Company */}
+          <div>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Company</p>
+            <ul className="space-y-2.5">
+              {[
+                { label: 'About', href: '/about' },
+                { label: 'Contact', href: '/contact' },
+                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Terms of Service', href: '/terms' },
+              ].map(item => (
+                <li key={item.label}>
+                  <Link href={item.href} className="text-sm text-gray-400 hover:text-white transition-colors">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="border-t border-gray-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-gray-600">© {new Date().getFullYear()} ToolNest. All rights reserved.</p>
           <div className="flex items-center gap-6">
-            {['Privacy', 'Terms', 'Contact'].map(item => (
-              <Link key={item} href="#" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">{item}</Link>
-            ))}
+            <Link href="/privacy" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">Privacy</Link>
+            <Link href="/terms" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">Terms</Link>
+            <Link href="/contact" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">Contact</Link>
+            <Link href="/about" className="text-xs text-gray-600 hover:text-gray-400 transition-colors">About</Link>
           </div>
           <p className="text-xs text-gray-600">Built with Next.js · Deployed on Vercel</p>
         </div>
