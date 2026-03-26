@@ -49,7 +49,7 @@ export default function Client() {
     setPages([])
 
     try {
-      const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf')
+      const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
 
       pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
         'pdfjs-dist/legacy/build/pdf.worker.min.mjs',
