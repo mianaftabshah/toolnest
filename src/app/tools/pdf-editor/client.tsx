@@ -51,13 +51,14 @@ export default function Client() {
     try {
       const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
 
-      pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-        'pdfjs-dist/legacy/build/pdf.worker.min.mjs',
-        import.meta.url
-      ).toString()
+      console.log('PDFJS version:', pdfjsLib.version)
+
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
 
       const bytes = await f.arrayBuffer()
-      const pdf = await pdfjsLib.getDocument({ data: bytes }).promise
+      const loadingTask = pdfjsLib.getDocument({ data: bytes })
+      const pdf = await loadingTask.promise
       const rendered: string[] = []
 
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -66,7 +67,9 @@ export default function Client() {
         const canvas = document.createElement('canvas')
         const context = canvas.getContext('2d')
 
-        if (!context) throw new Error('Canvas context not available')
+        if (!context) {
+          throw new Error('Canvas context not available')
+        }
 
         canvas.width = Math.floor(viewport.width)
         canvas.height = Math.floor(viewport.height)
@@ -81,16 +84,19 @@ export default function Client() {
 
       setPages(rendered)
       setCurrentPage(0)
-    } catch (error) {
-      console.error('PDF load error:', error)
-      alert('Error loading PDF')
+    } catch (error: any) {
+      console.error('FULL PDF ERROR:', error)
+      alert(`Error loading PDF: ${error?.message || error || 'Unknown error'}`)
+      setFile(null)
+      setPages([])
     } finally {
       setLoading(false)
     }
   }
 
   const getPos = (e: React.MouseEvent) => {
-    const rect = overlayRef.current!.getBoundingClientRect()
+    const rect = overlayRef.current?.getBoundingClientRect()
+    if (!rect) return { x: 0, y: 0 }
     return { x: e.clientX - rect.left, y: e.clientY - rect.top }
   }
 
@@ -271,9 +277,9 @@ export default function Client() {
       a.click()
 
       URL.revokeObjectURL(url)
-    } catch (error) {
+    } catch (error: any) {
       console.error('PDF save error:', error)
-      alert('Error saving PDF')
+      alert(`Error saving PDF: ${error?.message || error || 'Unknown error'}`)
     } finally {
       setSaving(false)
     }
@@ -325,8 +331,12 @@ export default function Client() {
           onDrop={e => {
             e.preventDefault()
             setDragging(false)
-            const f = e.dataTransfer.files[0]
-            if (f?.type === 'application/pdf') loadPDF(f)
+            const droppedFile = e.dataTransfer.files[0]
+            if (droppedFile?.type === 'application/pdf') {
+              loadPDF(droppedFile)
+            } else {
+              alert('Please upload a valid PDF file.')
+            }
           }}
         >
           <div className="text-6xl mb-4">📄</div>
@@ -335,18 +345,28 @@ export default function Client() {
             or click to browse — your file never leaves your device
           </p>
           <div className="flex flex-wrap justify-center gap-3 text-sm text-gray-400">
-            {['Add text', 'Highlight', 'Draw', 'Sign', 'Rectangle'].map(f => (
-              <span key={f} className="bg-white border border-gray-200 px-3 py-1.5 rounded-lg">
-                {f}
+            {['Add text', 'Highlight', 'Draw', 'Sign', 'Rectangle'].map(label => (
+              <span key={label} className="bg-white border border-gray-200 px-3 py-1.5 rounded-lg">
+                {label}
               </span>
             ))}
           </div>
           <input
             id="pdf-editor-input"
             type="file"
-            accept=".pdf"
+            accept=".pdf,application/pdf"
             className="hidden"
-            onChange={e => e.target.files?.[0] && loadPDF(e.target.files[0])}
+            onChange={e => {
+              const selectedFile = e.target.files?.[0]
+              if (!selectedFile) return
+
+              if (selectedFile.type !== 'application/pdf' && !selectedFile.name.toLowerCase().endsWith('.pdf')) {
+                alert('Please upload a valid PDF file.')
+                return
+              }
+
+              loadPDF(selectedFile)
+            }}
           />
         </div>
       ) : loading ? (
@@ -632,9 +652,7 @@ export default function Client() {
                           value={ann.text || ''}
                           onChange={e =>
                             setAnnotations(a =>
-                              a.map(x =>
-                                x.id === ann.id ? { ...x, text: e.target.value } : x
-                              )
+                              a.map(x => (x.id === ann.id ? { ...x, text: e.target.value } : x))
                             )
                           }
                           onBlur={() => setEditingText(null)}
