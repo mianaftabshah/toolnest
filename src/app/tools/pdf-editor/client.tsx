@@ -54,7 +54,7 @@ export default function Client() {
       console.log('PDFJS version:', pdfjsLib.version)
 
       pdfjsLib.GlobalWorkerOptions.workerSrc =
-        `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
+  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`
 
       const bytes = await f.arrayBuffer()
       const loadingTask = pdfjsLib.getDocument({ data: bytes })
