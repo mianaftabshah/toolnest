@@ -4,13 +4,32 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: { default: 'ToolNest — Free Online Tools', template: '%s | ToolNest' },
-  description: 'Free online tools for developers, designers, and everyone. JSON formatter, password generator, QR codes, Base64 encoder, word counter, color picker — no login required.',
-  keywords: ['free online tools', 'json formatter', 'password generator', 'qr code generator', 'base64 encoder', 'word counter', 'color picker'],
+  title: { default: 'ToolkitPro — Free Online Tools', template: '%s | ToolkitPro' },
+  description:
+    'Free online tools for PDF, image, text, and everyday tasks. Compress, convert, edit, and simplify your work — no login required.',
+  keywords: [
+    'free online tools',
+    'pdf tools',
+    'image tools',
+    'document tools',
+    'text tools',
+    'pdf editor',
+    'image compressor',
+    'file converter',
+    'toolkitpro',
+  ],
   openGraph: {
-    title: 'ToolNest — Free Online Tools',
-    description: 'Free online tools. No login. No ads. Just tools.',
+    title: 'ToolkitPro — Free Online Tools',
+    description:
+      'Free online tools for PDF, image, text, and everyday tasks. No login. No ads. Just useful tools.',
+    url: 'https://toolkitpro.site',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ToolkitPro — Free Online Tools',
+    description:
+      'Free online tools for PDF, image, text, and everyday tasks. No login. No ads. Just useful tools.',
   },
 }
 
