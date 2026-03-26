@@ -8,28 +8,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Cabinet Grotesk', 'sans-serif'],
-        sans: ['Satoshi', 'sans-serif'],
+        display: ['Plus Jakarta Sans', 'sans-serif'],
+        sans: ['Inter', 'sans-serif'],
       },
       colors: {
         brand: {
-          DEFAULT: '#e8502a',
-          dark: '#c93d1a',
-          light: '#fff3ef',
-        },
-      },
-      animation: {
-        'fade-up': 'fadeUp 0.5s ease forwards',
-        'float': 'float 3s ease-in-out infinite',
-      },
-      keyframes: {
-        fadeUp: {
-          from: { opacity: '0', transform: 'translateY(16px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-6px)' },
+          DEFAULT: '#4f46e5',
+          dark: '#4338ca',
+          light: '#eef2ff',
         },
       },
     },

@@ -1,32 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Satoshi:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --brand: #e8502a;
-  --brand-dark: #c93d1a;
-  --brand-light: #fff3ef;
+  --brand: #4f46e5;
+  --brand-dark: #4338ca;
+  --brand-light: #eef2ff;
 }
 
 * { box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Satoshi', sans-serif;
-  background: #faf9f7;
-  color: #1a1a18;
+  font-family: 'Inter', sans-serif;
+  background: #f8f8fc;
+  color: #0f0f1a;
   -webkit-font-smoothing: antialiased;
 }
 
-.font-display { font-family: 'Cabinet Grotesk', sans-serif; }
+.font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
 
 @layer components {
   .btn-brand {
-    @apply bg-brand text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all hover:bg-brand-dark active:scale-95 inline-flex items-center justify-center gap-2;
+    @apply bg-brand text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all hover:bg-brand-dark active:scale-95 inline-flex items-center justify-center gap-2;
+    background: var(--brand);
   }
+  .btn-brand:hover { background: var(--brand-dark); }
   .btn-outline {
     @apply border border-gray-200 bg-white text-gray-700 px-5 py-2.5 rounded-xl text-sm font-medium transition-all hover:border-gray-300 hover:bg-gray-50 active:scale-95;
   }
@@ -34,10 +35,10 @@ body {
     @apply bg-white border border-gray-100 rounded-2xl;
   }
   .input-base {
-    @apply w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-brand transition-all bg-white;
+    @apply w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all bg-white;
   }
   .textarea-base {
-    @apply w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-brand transition-all resize-none bg-white;
+    @apply w-full border border-gray-200 rounded-xl px-4 py-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-100 focus:border-indigo-400 transition-all resize-none bg-white;
   }
   .badge {
     @apply text-xs font-semibold px-2.5 py-0.5 rounded-full;
@@ -48,16 +49,7 @@ body {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes marquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-.animate-fade-up {
-  animation: fadeUp 0.5s ease forwards;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
+.animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+.animate-marquee { animation: marquee 25s linear infinite; display: flex; width: max-content; }
